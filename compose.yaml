@@ -10,3 +10,5 @@ services:
       POSTGRES_PASSWORD: '04012002'
       POSTGRES_DB: 'NewtechShop'
     restart: unless-stopped
+    volumes:
+      - ./db:/var/lib/postgresql/data
