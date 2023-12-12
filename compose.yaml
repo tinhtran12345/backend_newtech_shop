@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  db:
+    image: 'postgres:latest'
+    container_name: 'db'
+    ports:
+      - '2345:5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: '04012002'
+      POSTGRES_DB: 'NewtechShop'
+    restart: unless-stopped

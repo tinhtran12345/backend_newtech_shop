@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Address {
+  id            Int  @id @default(autoincrement())
+  address_line2 String? 
+  city          String? 
+  address_line1 String? 
+  country       String? 
+  phone_number  String?
+  user_id       Int?
+  User          User?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Order {
+  id               Int             @id @default(autoincrement())
+  order_number     Int
+  status           String             
+  total_price      Int
+  user_id          Int
+  note             String?
+  payment_id       Int
+  Payment          Payment            @relation(fields: [payment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User             User               @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Order_item       Order_item[]
+  Shipping_product Shipping_product[]
+}
+
+model Order_item {
+  id         Int  @id @default(autoincrement())
+  quantity   Int
+  price      Int
+  order_id   Int
+  product_id Int
+  Order      Order   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Product    Product @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Payment {
+  id             Int  @id @default(autoincrement())
+  user_id        Int
+  payment_method String  
+  amount         Int?
+  Order          Order[]
+  User           User    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Product {
+  id               Int           @id @default(autoincrement())
+  SKU              String          
+  product_name     String
+  description      String
+  price            Int
+  quantity         Int
+  category_id      Int
+  Order_item       Order_item[]
+  Product_category Product_category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Product_category {
+  id            Int    @id @default(autoincrement())
+  category_name String   
+  desc          String
+  Product       Product[]
+}
+
+model Role {
+  id        Int @id @default(autoincrement())
+  role_type String @default(dbgenerated("USER")) 
+  user_id   Int
+  User      User   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Shipping_product {
+  id            Int    @id @default(autoincrement())
+  shipping_date DateTime? @db.Date  @default(now())
+  address_line1 String?  
+  address_line2 String?   
+  city          String?  
+  phone_number  String?
+  receipt_date   DateTime? @db.Date
+  order_id      Int?
+  Order         Order?    @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  id         Int    @id @default(autoincrement())
+  first_name String    
+  last_name  String   
+  password   String    
+  email      String    @unique
+  Address    Address[]
+  Order      Order[]
+  Payment    Payment[]
+  Role       Role[]
+}
