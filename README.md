@@ -45,10 +45,6 @@
   - Shipping_product(order_date, address ,receipt_date)
   - Payment(date, method, amount, status)
 
-### 2. Preparing data and inserting data to DB
+### 2. Testing
 
-### 3. Project Design
-
-### 4. NestJS
-
--
+- Jest or spectrum speed test
