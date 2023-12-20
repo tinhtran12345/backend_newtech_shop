@@ -41,9 +41,12 @@
   - Product_category(category_name, desc)
   - Product_discount(name, desc, discount_percent, active) => làm sau
 - Shopping process
+
   - Order(order_number, order_date, total_price) --> Order_item(quantity, price)
   - Shipping_product(order_date, address ,receipt_date)
   - Payment(date, method, amount, status)
+
+- Link design database: https://dbdiagram.io/d/Newtechshop-65830d9156d8064ca065c3f7
 
 ### 2. Testing
 

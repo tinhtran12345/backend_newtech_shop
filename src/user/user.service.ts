@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/providers/prisma.service';
 import { User } from './interfaces/user.interface';
-import { CreateUserDto } from './dto';
+import { CreateUserDto, updateCurrentDto } from './dto';
 import { hash } from 'bcrypt';
 
 @Injectable()
@@ -21,10 +21,19 @@ export class UserService {
     if (user) {
       throw new ConflictException('Email duplicate!');
     }
+    // su dung transaction de xu li tao 3 bang user, address, role
     const newUser = await this.prisma.user.create({
       data: {
         ...dto,
         password: await hash(dto.password, 10),
+        Address: {
+          create: {},
+        },
+        Role: {
+          create: {
+            role_type: 'user',
+          },
+        },
       },
     });
 
@@ -72,5 +81,21 @@ export class UserService {
       throw new NotFoundException('User not found!');
     }
     return user;
+  }
+
+  async updateProfileCurrentUser(id: number, dto: updateCurrentDto) {
+    const currentUser = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        ...dto,
+      },
+    });
+    if (!currentUser) {
+      throw new NotFoundException('User not found');
+    }
+    const { password, ...result } = currentUser;
+    return result;
   }
 }
