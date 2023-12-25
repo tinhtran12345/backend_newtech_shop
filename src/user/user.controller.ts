@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Put,
   Req,
   UseGuards,
@@ -53,5 +54,10 @@ export class UserController {
   ): Promise<User> {
     const { id } = req['user'];
     return this.userService.updateProfileCurrentUser(id, updateCurrentDto);
+  }
+
+  @Patch('changePassword')
+  async changePassword() {
+    return 'Done';
   }
 }

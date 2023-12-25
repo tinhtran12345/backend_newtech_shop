@@ -9,6 +9,21 @@ services:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: '04012002'
       POSTGRES_DB: 'NewtechShop'
+      PGDATA: /var/lib/postgresql/data
     restart: unless-stopped
     volumes:
       - ./db:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tinhtran04012002@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 04012002
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - '5050:80'
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    depends_on:
+      - db
+    restart: unless-stopped
