@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AddressModule } from './address/address.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ProductsModule } from './products/products.module';
+import { VariantsController } from './variants/variants.controller';
+import { VariantsModule } from './variants/variants.module';
 
 @Module({
   imports: [
@@ -19,8 +21,9 @@ import { ProductsModule } from './products/products.module';
     UserModule,
     AddressModule,
     ProductsModule,
+    VariantsModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, VariantsController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  db:
+  postgres:
     image: 'postgres:latest'
     container_name: 'db'
     ports:
@@ -9,21 +9,28 @@ services:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: '04012002'
       POSTGRES_DB: 'NewtechShop'
-      PGDATA: /var/lib/postgresql/data
     restart: unless-stopped
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: tinhtran04012002@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: 04012002
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 80
+
     ports:
       - '5050:80'
     volumes:
-      - ./pgadmin:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     depends_on:
-      - db
+      - postgres
     restart: unless-stopped
+
+# a location in local filesystem that is managed by docker. Volume is used persist daa of postgres container even
+# if user delete and recreate it
+volumes:
+  # refer volume in docker
+  postgres:
+  pgadmin:

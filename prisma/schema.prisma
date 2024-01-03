@@ -58,15 +58,17 @@ model Payment {
 model Product {
   id               Int           @id @default(autoincrement())
   product_code     String          @unique @default(uuid())
+  thumb             String
   product_name     String
   description      String
   price            Int
   quantity         Int
-  category_id      Int
   Order_item       Order_item[]
-  Variants         Variants[] 
+  Variant_values        Variant_values[] 
+  category_id      Int
   Product_category Product_category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
 
 model Product_category {
   id            Int    @id @default(autoincrement())
@@ -111,14 +113,15 @@ model Variants {
   id         Int    @id @default(autoincrement())
   name       String
   Variant_values  Variant_values[] 
-  product_id Int?  
-  Product    Product? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
 }
 
 model Variant_values{
   id         Int    @id @default(autoincrement())
+  image       String?
   value       String  
   variants_id      Int?
   Variants     Variants? @relation(fields: [variants_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_id Int?  
+  Product    Product? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+

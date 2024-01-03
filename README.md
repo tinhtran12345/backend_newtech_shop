@@ -51,3 +51,13 @@
 ### 2. Testing
 
 - Jest or spectrum speed test
+
+### 3.Usages
+
+- Clone project
+
+`git clone https://github.com/tinhtran12345/backend_newtech_shop.git`
+
+- Run docker compose
+
+`docker compose up -d`
